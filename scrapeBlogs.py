@@ -21,46 +21,57 @@ import unicodedata
 #define a base URL & page variable to increment 
 baseURL = "http://mitadmissions.org/blogs/P"
 p = 0 
-html = ""
+#html = ""
 
-#loop through & download last 4600 (p<=4600 for production as of 5/14/2014) blog listings into a single stupidly huge document  
-while p <= 4600: 
-	doc = urllib2.urlopen(baseURL + str(p))
-	html = html + doc.read()
+headers = { 'User-Agent' : 'PeteyBlogBot' }
+
+#loop through & download last 80 (p<=4600 for production as of 5/14/2014) blog listings into a single stupidly huge document  
+while p <= 4600:
+	html = "" 
+	#doc = urllib2.urlopen(baseURL + str(p))
+	doc = urllib2.urlopen(urllib2.Request((baseURL + str(p)), None, headers))
+	html = doc.read()
+	soup = BeautifulSoup(html)
+	print str(p)
+
+	#get entry links and write to list 
+	links = []
+	linkSoup = soup.find_all("h3")
+	for link in linkSoup:
+		thisLink = link.a['href']
+		fixedLink = str(thisLink)
+		links.append(fixedLink)
+
+	##visit each link for each entry, scrape text, write to file 
+
+	#loop through all extracted links
+	for i in links:
+		#create a separate soup for each linked entry
+		html2 = ""
+		doc2 = urllib2.urlopen(i)
+		html2 = html2 + doc2.read()
+		soup2 = BeautifulSoup(html2, "lxml")
+
+		#get entry text 
+		#first, scrape the soup for all <p> that have no id nor class (which for some reason is just sentences)
+		lines = soup2.find_all('p', id='', class_='')
+
+		#remove the 'see complete archives' outlier which always comes first 
+		lines.pop(0)
+
+		#remove the comments stuff in old blogs
+		if '<p>Comments have been closed.</p>' == str(lines[-1]): 
+			lines.pop(-1)
+		if '<p>No comments yet!</p>' == str(lines[-1]):
+			lines.pop(-1)
+
+		#then, iterate through this list of strings, get and clean the text, and write line to text file 
+		for l in lines:
+			thisLine = l.getText()
+			cleanLine = unicodedata.normalize('NFKD', thisLine).encode('ascii', 'ignore')
+			cleanerLine = cleanLine.replace('\n','').replace('\\','')
+			with open('blogtext.txt', 'a') as out_file:
+				out_file.write(' ' + cleanerLine)
+
+	#begin loop anew 
 	p = p + 20
-
-#load stupidly huge document into stupidly disgusting soup 
-soup = BeautifulSoup(html)
-
-#get entry links and write to list 
-links = []
-linkSoup = soup.find_all("h3")
-for link in linkSoup:
-	thisLink = link.a['href']
-	fixedLink = str(thisLink)
-	links.append(fixedLink)
-
-##visit each link for each entry, scrape text, write to file 
-
-#loop through all extracted links
-for i in links:
-	#create a separate soup for each linked entry
-	html2 = ""
-	doc2 = urllib2.urlopen(i)
-	html2 = html2 + doc2.read()
-	soup2 = BeautifulSoup(html2, "lxml")
-
-	#get entry text 
-	#first, scrape the soup for all <p> that have no id nor class (which for some reason is just sentences)
-	lines = soup2.find_all('p', id='', class_='')
-
-	#remove the 'see complete archives' outlier which always comes first 
-	lines.pop(0)
-
-	#then, iterate through this list of strings, get and clean the text, and write line to text file 
-	for l in lines:
-		thisLine = l.getText()
-		cleanLine = unicodedata.normalize('NFKD', thisLine).encode('ascii', 'ignore')
-		cleanerLine = cleanLine.replace('\n','').replace('\\','')
-		with open('blogtext.txt', 'a') as out_file:
-			out_file.write(' ' + cleanerLine)
