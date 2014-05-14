@@ -24,7 +24,7 @@ p = 0
 html = ""
 
 #loop through & download last 4600 (p<=4600 for production as of 5/14/2014) blog listings into a single stupidly huge document  
-while p <= 20: 
+while p <= 4600: 
 	doc = urllib2.urlopen(baseURL + str(p))
 	html = html + doc.read()
 	p = p + 20
