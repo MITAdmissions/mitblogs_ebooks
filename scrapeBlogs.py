@@ -2,20 +2,13 @@
 ##horrible code can be blamed on petey@mit.edu
 
 from bs4 import BeautifulSoup
-from collections import Counter
-from pprint import pprint
 import os
 import csv
 import string
 import urllib
 import urllib2
-import time
-from datetime import datetime
-from datetime import timedelta
 import re
 import unicodedata
-
-#https://pypi.python.org/pypi/PyMarkovChain/1.7.5
 
 ##get list of best of the blogs links 
 #define a base URL & page variable to increment 
