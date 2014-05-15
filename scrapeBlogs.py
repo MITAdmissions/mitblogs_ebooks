@@ -59,16 +59,13 @@ while p <= 4600:
 		#remove the 'see complete archives' outlier which always comes first 
 		lines.pop(0)
 
-		#remove the comments stuff in old blogs
-		print str(lines[-1])
-		if '<p>Comments have been closed.</p>' == str(lines[-1]): 
-			lines.pop(-1)
-		if '<p>No comments yet!</p>' == str(lines[-1]):
-			lines.pop()
-
 		#then, iterate through this list of strings, get and clean the text, and write line to text file 
 		for l in lines:
 			thisLine = l.getText()
+			if "Comments have been closed." in thisLine:
+				break
+			if "No comments yet!" in thisLine:
+				break 
 			cleanLine = unicodedata.normalize('NFKD', thisLine).encode('ascii', 'ignore')
 			cleanerLine = cleanLine.replace('\n','').replace('\\','')
 			with open('blogtext.txt', 'a') as out_file:
