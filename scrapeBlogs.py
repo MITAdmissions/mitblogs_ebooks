@@ -60,10 +60,11 @@ while p <= 4600:
 		lines.pop(0)
 
 		#remove the comments stuff in old blogs
+		print str(lines[-1])
 		if '<p>Comments have been closed.</p>' == str(lines[-1]): 
 			lines.pop(-1)
 		if '<p>No comments yet!</p>' == str(lines[-1]):
-			lines.pop(-1)
+			lines.pop()
 
 		#then, iterate through this list of strings, get and clean the text, and write line to text file 
 		for l in lines:
