@@ -2,3 +2,5 @@ possible markov libraries:
 
 https://pypi.python.org/pypi/PyMarkovChain/1.7.5
 http://agiliq.com/blog/2009/06/generating-pseudo-random-text-with-markov-chains-u/
+http://www.yaymukund.com/twittov/
+https://github.com/clonepa/twitter_ebooks
