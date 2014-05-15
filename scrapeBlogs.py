@@ -42,7 +42,7 @@ while p <= 4600:
 		fixedLink = str(thisLink)
 		links.append(fixedLink)
 
-	##visit each link for each entry, scrape text, write to file 
+		##eventually, should add some stuff to pull entry authors, links, dates, etc, and store in dict w/ entry text)
 
 	#loop through all extracted links
 	for i in links:
