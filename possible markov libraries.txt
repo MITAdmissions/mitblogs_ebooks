@@ -4,3 +4,19 @@ https://pypi.python.org/pypi/PyMarkovChain/1.7.5
 http://agiliq.com/blog/2009/06/generating-pseudo-random-text-with-markov-chains-u/
 http://www.yaymukund.com/twittov/
 https://github.com/clonepa/twitter_ebooks
+http://www.nltk.org/api/nltk.tokenize.html
+http://www.nltk.org/_modules/nltk/tokenize.html
+http://stackoverflow.com/questions/1150144/generating-random-sentences-from-custom-text-in-pythons-nltk
+
+##
+import nltk.data
+f = open('someblogs.txt')
+text = f.read()
+sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
+tokens = sent_detector.tokenize(text.strip())
+var = nltk.Text(tokens)
+tok = nltk.word_tokenize(text)
+foo = nltk.Text(tok)
+print foo.generate(3)
+
+-- i don't know what this does but it does something 
