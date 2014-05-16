@@ -14,7 +14,7 @@ CONSUMER_KEY         = ''
 CONSUMER_SECRET      = ''
 ACCESS_TOKEN         = ''
 ACCESS_TOKEN_SECRET  = ''
-#ATH_TO_TWEETS_CSV   = 'tweets.csv'
+#PATH_TO_TWEETS_CSV   = 'tweets.csv'
 PATH_TO_TWEETS_CLEAN = 'someblogs.txt'
 
 ### -----------------------------------------------------------------------------------------------------
@@ -40,8 +40,9 @@ tweet_text = markov.generate_n_sentences(2).split(/\#\</).first.chomp.chop
 trunc_tweet = tweet_text[0..140]
 markov.save_dictionary!
 
-puts trunc_tweet
-    
+#puts tweet_text
+ puts trunc_tweet
+
 =begin
 # Connect to your Twitter account
 Twitter.configure do |config|
